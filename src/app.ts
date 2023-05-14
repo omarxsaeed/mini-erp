@@ -1,9 +1,9 @@
 import express from "express";
+import routes from "./loaders/routes.js";
+import routesSettings from "./loaders/routesSettings.js";
 const app = express();
 
-app.get("/health", (req, res) => {
-  const message = "Server's healthy and running ⚡!";
-  res.json(message);
-});
+routesSettings(app);
+app.use("/api", routes);
 
 export default app;
