@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id             Int       @id @default(autoincrement())
+  name           String
+  password       String
+  joinDate       DateTime
+  birthDate      DateTime
+  role           EmployeeRole
+  profilePicture String?
+  tasks           Task[]
+  salaryHistory   EmployeeSalaryHistory[]
+}
+
+model Task {
+  id           Int       @id @default(autoincrement())
+  name         String
+  deadlineDate DateTime
+  employeeId    Int
+  finishedAt   DateTime?
+  taskStatus   TaskStatus
+  taskSalary   Float
+  employee      Employee   @relation(fields: [employeeId], references: [id])
+}
+
+model EmployeeSalaryHistory {
+  id            Int       @id @default(autoincrement())
+  employeeId    Int
+  month         Int
+  year          Int
+  salaryTaken   Float
+  employee      Employee  @relation(fields: [employeeId], references: [id])
+}
+
+enum EmployeeRole {
+  SUPER_ADMIN
+  HR
+  DEVELOPER
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
