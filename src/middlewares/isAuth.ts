@@ -3,7 +3,7 @@ import { decodeToken } from "../utils/jwt.js";
 import { CustomError } from "../utils/errors.js";
 
 interface AuthenticatedRequest extends Request {
-  requester: any; // Adjust the type of requester according to your requirements
+  requester?: any;
 }
 
 const isAuth = (req: Request, res: Response, next: NextFunction) => {
