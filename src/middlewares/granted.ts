@@ -8,7 +8,7 @@ const granted = (allowedRoles: string[]) => {
       const requesterRole = (req as AuthenticatedRequest).requester.role;
       const isAllowed = allowedRoles.includes(requesterRole);
       if (!isAllowed) {
-        throw new CustomError("Not authorized", 401);
+        throw new CustomError("Not authorized", 403);
       }
       next();
     } catch (err) {
