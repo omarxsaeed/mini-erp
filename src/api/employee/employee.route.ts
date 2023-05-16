@@ -1,10 +1,10 @@
 import { Router } from "express";
 
 import * as employeeController from "./employee.controller.js";
-import { isAuth } from "../../middlewares/isAuth.js";
+import { isAuth, granted } from "../../middlewares/index.js";
 
 const router = Router();
 
-router.post("/", isAuth, employeeController.create);
+router.post("/", isAuth, granted(["SUPER_ADMIN", "HR"]), employeeController.create);
 
 export default router;
