@@ -31,6 +31,7 @@ model Task {
   finishedAt   DateTime?
   taskStatus   TaskStatus
   taskSalary   Float
+  isPaid       Boolean   @default(false)
   employee      Employee   @relation(fields: [employeeId], references: [id])
 }
 
