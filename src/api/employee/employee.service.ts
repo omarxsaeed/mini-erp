@@ -1,5 +1,5 @@
 import { CustomError } from "../../utils/errors.js";
-import { Employee, PrismaClient } from "@prisma/client";
+import { Employee, PrismaClient, Task } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
@@ -37,4 +37,65 @@ const create = async (employeeInfo: Employee) => {
   }
 };
 
-export { create };
+const getCompletedTasks = async (
+  employeeId: number,
+  month: number,
+  year: number,
+  isPaid?: boolean // Optional parameter to filter by isPaid value
+) => {
+  try {
+    const whereCondition: any = {
+      employeeId,
+      taskStatus: "COMPLETED",
+      finishedAt: {
+        gte: new Date(year, month - 1, 1),
+        lt: new Date(year, month, 1),
+      },
+    };
+
+    if (isPaid !== undefined) {
+      whereCondition.isPaid = isPaid;
+    }
+
+    const completedTasks = await prisma.task.findMany({
+      where: whereCondition,
+    });
+
+    if (!completedTasks) {
+      throw new CustomError("No completed tasks", 404);
+    }
+
+    return completedTasks;
+  } catch (error) {
+    // Handle error
+    console.error("Error finding employee:", error);
+    throw new CustomError("Internal Server Error", 500);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const calculateMonthlySalary = async (tasks: Task[]) => {
+  const monthlySalary = tasks.reduce((acc, task) => {
+    return acc + task.taskSalary;
+  }, 0);
+
+  return monthlySalary;
+};
+
+const paySalary = async (tasks: Task[]) => {
+  const updatedTasks = tasks.map((task) => {
+    return prisma.task.update({
+      where: {
+        id: task.id,
+      },
+      data: {
+        isPaid: true,
+      },
+    });
+  });
+
+  await prisma.$transaction(updatedTasks);
+};
+
+export { create, getCompletedTasks, calculateMonthlySalary, paySalary };
