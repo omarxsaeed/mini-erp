@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRouter from "../api/auth/auth.route.js";
 import employeeRouter from "../api/employee/employee.route.js";
 import taskRouter from "../api/task/task.route.js";
+import employeeSHRouter from "../api/employeeSalaryHistory/employeeSH.route.js";
 
 const router = Router();
 
@@ -13,5 +14,6 @@ router.get("/health", (req, res) => {
 router.use("/auth", authRouter);
 router.use("/employee", employeeRouter);
 router.use("/tasks", taskRouter);
+router.use("/history", employeeSHRouter);
 
 export default router;
