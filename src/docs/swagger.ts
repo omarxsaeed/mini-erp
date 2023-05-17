@@ -6,24 +6,23 @@ import * as EmployeeSchemas from "../api/employee/employee.validation.js";
 import { taskSchema } from "../api/task/task.validation.js";
 
 const setupSwagger = (app: Express, router: Router) => {
-  const extractRoutePaths = (router: Router): string[] => {
-    const routePaths: string[] = [];
+  // const extractRoutePaths = (router: Router): string[] => {
+  //   const routePaths: string[] = [];
 
-    router.stack.forEach((layer) => {
-      if (layer.route) {
-        routePaths.push(layer.route.path);
-      } else if (layer.name === "router" && layer.handle) {
-        const nestedRouter = layer.handle as Router;
-        const nestedRoutePaths = extractRoutePaths(nestedRouter);
-        routePaths.push(...nestedRoutePaths);
-      }
-    });
+  //   router.stack.forEach((layer) => {
+  //     if (layer.route) {
+  //       routePaths.push(layer.route.path);
+  //     } else if (layer.name === "router" && layer.handle) {
+  //       const nestedRouter = layer.handle as Router;
+  //       const nestedRoutePaths = extractRoutePaths(nestedRouter);
+  //       routePaths.push(...nestedRoutePaths);
+  //     }
+  //   });
 
-    return routePaths;
-  };
+  //   return routePaths;
+  // };
 
-  const routePaths = extractRoutePaths(router);
-  console.log(routePaths);
+  // const routePaths = extractRoutePaths(router);
 
   const options: Options = {
     swaggerDefinition: {
