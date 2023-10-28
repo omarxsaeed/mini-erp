@@ -12,7 +12,7 @@ A mini erp system to manage employees data, tasks and salary
 
 To run the ERP System locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/omarxsaeed/ABNOUR-Task.git`
+1. Clone the repository: `git clone https://github.com/omarxsaeed/mini-erp.git`
 2. Install dependencies: `npm install`
 3. Set up environment variables: Create a `.env` file in the project root directory and specify the required variables (e.g., database connection URL, secret key). a sample .env file is provided to illustrate used enviroment variables.
 4. Start the server: `npm start`
